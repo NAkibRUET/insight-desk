@@ -26,6 +26,9 @@ public class FeedbackService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+
     /**
      * Create a single feedback entry
      */
@@ -42,7 +45,12 @@ public class FeedbackService {
         feedback.setProcessed(false);
 
         Feedback savedFeedback = feedbackRepository.save(feedback);
-        return mapToResponse(savedFeedback);
+        FeedbackResponse response = mapToResponse(savedFeedback);
+        
+        // Send feedback event to Kafka
+        kafkaProducerService.sendFeedbackEvent(response);
+        
+        return response;
     }
 
     /**
@@ -103,7 +111,11 @@ public class FeedbackService {
                     
                     feedback.setProcessed(false);
                     Feedback savedFeedback = feedbackRepository.save(feedback);
-                    responses.add(mapToResponse(savedFeedback));
+                    FeedbackResponse response = mapToResponse(savedFeedback);
+                    responses.add(response);
+                    
+                    // Send feedback event to Kafka
+                    kafkaProducerService.sendFeedbackEvent(response);
                 }
             }
         }
@@ -139,7 +151,11 @@ public class FeedbackService {
             feedback.setProcessed(false);
             
             Feedback savedFeedback = feedbackRepository.save(feedback);
-            responses.add(mapToResponse(savedFeedback));
+            FeedbackResponse response = mapToResponse(savedFeedback);
+            responses.add(response);
+            
+            // Send feedback event to Kafka
+            kafkaProducerService.sendFeedbackEvent(response);
         }
         
         return responses;
