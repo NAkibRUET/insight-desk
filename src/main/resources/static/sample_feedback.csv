@@ -1,0 +1,6 @@
+userId,projectId,message,category,sentimentScore,keywords
+1,100,"Great product! Very satisfied with the quality.","praise",0.95,"quality,satisfied,great"
+2,100,"The app crashes frequently on my device.","bug",-0.60,"crash,bug,issue"
+3,101,"Would love to see dark mode added.","feature",0.40,"dark mode,feature,improvement"
+4,101,"Customer support was very helpful.","praise",0.85,"support,helpful,service"
+5,102,"The pricing is too high for what it offers.","complaint",-0.30,"pricing,expensive,cost"

@@ -1,0 +1,34 @@
+[
+  {
+    "userId": 10,
+    "projectId": 200,
+    "message": "Excellent user interface design. Very intuitive!",
+    "category": "praise",
+    "sentimentScore": 0.92,
+    "keywords": ["UI", "design", "intuitive", "excellent"]
+  },
+  {
+    "userId": 11,
+    "projectId": 200,
+    "message": "Login page doesn't work on mobile browsers.",
+    "category": "bug",
+    "sentimentScore": -0.50,
+    "keywords": ["login", "mobile", "bug", "browser"]
+  },
+  {
+    "userId": 12,
+    "projectId": 201,
+    "message": "Please add export to PDF feature.",
+    "category": "feature",
+    "sentimentScore": 0.30,
+    "keywords": ["export", "PDF", "feature"]
+  },
+  {
+    "userId": 13,
+    "projectId": 201,
+    "message": "App performance has improved significantly after the update.",
+    "category": "praise",
+    "sentimentScore": 0.88,
+    "keywords": ["performance", "improvement", "update"]
+  }
+]

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Feedback</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .file-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .file-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .file-upload {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            flex: 1;
+            padding: 10px;
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .upload-btn {
+            padding: 12px 24px;
+            width: auto;
+            margin-top: 10px;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .optional {
+            color: #999;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .import-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .import-buttons button {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Submit Feedback</h1>
+        <p class="subtitle">We'd love to hear your thoughts, suggestions, or concerns.</p>
+
+        <form id="feedbackForm">
+            <div class="form-group">
+                <label for="userId">User ID <span class="optional">(optional)</span></label>
+                <input type="number" id="userId" name="userId" placeholder="Enter your user ID">
+            </div>
+
+            <div class="form-group">
+                <label for="projectId">Project ID <span class="optional">(optional)</span></label>
+                <input type="number" id="projectId" name="projectId" placeholder="Enter project ID">
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message <span class="required">*</span></label>
+                <textarea id="message" name="message" required placeholder="Share your feedback here..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category <span class="optional">(optional)</span></label>
+                <select id="category" name="category">
+                    <option value="">-- Select Category --</option>
+                    <option value="bug">Bug Report</option>
+                    <option value="feature">Feature Request</option>
+                    <option value="improvement">Improvement</option>
+                    <option value="complaint">Complaint</option>
+                    <option value="praise">Praise</option>
+                    <option value="question">Question</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+
+        <div id="formMessage" class="message"></div>
+
+        <!-- File Import Section -->
+        <div class="file-section">
+            <h2>📂 Import Feedback from File</h2>
+            
+            <div class="form-group">
+                <label for="csvFile">Upload CSV File</label>
+                <input type="file" id="csvFile" accept=".csv">
+                <button class="upload-btn" onclick="uploadFile('csv')">Import CSV</button>
+            </div>
+
+            <div class="form-group">
+                <label for="jsonFile">Upload JSON File</label>
+                <input type="file" id="jsonFile" accept=".json">
+                <button class="upload-btn" onclick="uploadFile('json')">Import JSON</button>
+            </div>
+
+            <div id="uploadMessage" class="message"></div>
+        </div>
+    </div>
+
+    <script>
+        // Get API base URL (adjust if your backend runs on different port)
+        const API_BASE_URL = 'http://localhost:8080/api/feedback';
+
+        // Handle form submission
+        document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                userId: document.getElementById('userId').value ? parseInt(document.getElementById('userId').value) : null,
+                projectId: document.getElementById('projectId').value ? parseInt(document.getElementById('projectId').value) : null,
+                message: document.getElementById('message').value,
+                category: document.getElementById('category').value || null
+            };
+
+            try {
+                const response = await fetch(API_BASE_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const messageDiv = document.getElementById('formMessage');
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    messageDiv.className = 'message success show';
+                    messageDiv.textContent = `✅ Feedback submitted successfully! ID: ${result.id}`;
+                    document.getElementById('feedbackForm').reset();
+                    
+                    // Hide message after 5 seconds
+                    setTimeout(() => {
+                        messageDiv.classList.remove('show');
+                    }, 5000);
+                } else {
+                    messageDiv.className = 'message error show';
+                    messageDiv.textContent = '❌ Failed to submit feedback. Please try again.';
+                }
+            } catch (error) {
+                const messageDiv = document.getElementById('formMessage');
+                messageDiv.className = 'message error show';
+                messageDiv.textContent = '❌ Error: ' + error.message;
+            }
+        });
+
+        // Handle file upload
+        async function uploadFile(type) {
+            const fileInput = document.getElementById(type + 'File');
+            const file = fileInput.files[0];
+            const messageDiv = document.getElementById('uploadMessage');
+
+            if (!file) {
+                messageDiv.className = 'message error show';
+                messageDiv.textContent = '❌ Please select a file first.';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/import/${type}`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    messageDiv.className = 'message success show';
+                    messageDiv.textContent = `✅ ${result.message}`;
+                    fileInput.value = '';
+                    
+                    // Hide message after 5 seconds
+                    setTimeout(() => {
+                        messageDiv.classList.remove('show');
+                    }, 5000);
+                } else {
+                    messageDiv.className = 'message error show';
+                    messageDiv.textContent = `❌ ${result.error || 'Failed to import file'}`;
+                }
+            } catch (error) {
+                messageDiv.className = 'message error show';
+                messageDiv.textContent = '❌ Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

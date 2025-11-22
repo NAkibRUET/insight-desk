@@ -1,0 +1,101 @@
+# Feedback Collection Service
+
+A Spring Boot application for collecting user feedback with support for form submissions, CSV imports, and JSON imports.
+
+## Prerequisites
+
+- Java 21
+- PostgreSQL database
+- Gradle (included via wrapper)
+
+## Database Setup
+
+1. Create a PostgreSQL database:
+Use the feedback.sql file
+
+## Running the Application
+
+### Using Gradle Wrapper (Windows):
+
+```bash
+.\gradlew.bat bootRun
+```
+
+### Using Gradle Wrapper (Linux/Mac):
+
+```bash
+./gradlew bootRun
+```
+
+The application will start on `http://localhost:8080`
+
+### 1. Web Form
+
+Open your browser and navigate to:
+```
+http://localhost:8080/index.html
+```
+
+Fill out the feedback form and submit.
+
+### Successful Feedback Submission:
+```json
+{
+  "id": 1,
+  "userId": 1,
+  "projectId": 100,
+  "message": "Great product!",
+  "category": "praise",
+  "sentimentScore": 0.95,
+  "keywords": ["quality", "excellent"],
+  "entities": null,
+  "processed": false,
+  "createdAt": "2025-11-21T10:30:00Z",
+  "updatedAt": "2025-11-21T10:30:00Z"
+}
+```
+
+### CSV/JSON Import Success:
+```json
+{
+  "message": "Successfully imported 5 feedback entries",
+  "count": 5,
+  "data": [...]
+}
+```
+
+## Testing with cURL
+
+### Submit feedback:
+```bash
+curl -X POST http://localhost:8080/api/feedback \
+  -H "Content-Type: application/json" \
+  -d "{\"message\":\"Test feedback\",\"category\":\"other\"}"
+```
+
+### Import CSV:
+```bash
+curl -X POST http://localhost:8080/api/feedback/import/csv \
+  -F "file=@sample_feedback.csv"
+```
+
+### Import JSON:
+```bash
+curl -X POST http://localhost:8080/api/feedback/import/json \
+  -F "file=@sample_feedback.json"
+```
+
+## Technologies Used
+
+- **Spring Boot 3.5.7** - Application framework
+- **Spring Data JPA** - Database operations
+- **PostgreSQL** - Database with full-text search
+- **Jackson** - JSON processing
+- **Gradle** - Build tool
+
+## Notes
+
+- The `message_tsv` column is automatically populated by a PostgreSQL trigger for full-text search
+- Timestamps (`created_at`, `updated_at`) are managed automatically
+- The application supports CORS for public form access
+- File uploads are limited to 10MB
