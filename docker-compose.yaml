@@ -22,3 +22,18 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
     volumes:
       - ./kafka/data:/var/lib/kafka/data
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: insight_desk
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Password1@
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
